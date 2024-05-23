@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@azure/storage-blob": "^12.18.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -19,7 +20,9 @@
     "express": "^4.19.2",
     "google-auth-library": "^9.9.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.9.7"
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.7",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

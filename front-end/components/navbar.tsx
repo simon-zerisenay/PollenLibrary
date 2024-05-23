@@ -28,7 +28,7 @@ import { useState , useEffect} from "react";
 const urlPath = process.env.NEXT_PUBLIC_url;
 
 export const Navbar = () => {
-	// const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+	//const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 	// const token = localStorage.getItem('token');
 	// useEffect(() => {
 	// 	const checkAuth = async () => {
@@ -113,12 +113,14 @@ export const Navbar = () => {
 				
 				
 				<NavbarItem className="hidden sm:flex gap-5 md:mr-10">
+					<NextLink href="/login">
+					<button className='border-[0.5px] dark:border-gray-100 border-gray-900 rounded-full py-2 px-5 text-black dark:text-white font-medium'> Log In</button>
+					</NextLink>
+					<NextLink href="/signup">
+					<button className='border-[0.5px] dark:border-gray-100 border-gray-900 rounded-full py-2 px-5 text-black dark:text-white font-medium' >Sign Up</button>
+					</NextLink>
 					<ThemeSwitch />
 				</NavbarItem>
-				
-				
-					
-				
 				
 			</NavbarContent>
 
@@ -145,7 +147,14 @@ export const Navbar = () => {
 					
 					</NavbarMenuItem>
 					))}
-					
+					<div className=" flex flex-col">
+					<NextLink href="/login">
+					<button className='border-[0.5px] dark:border-gray-100 border-gray-900 rounded-full py-2 px-5 text-black dark:text-white font-medium'> Log In</button>
+					</NextLink>
+					<NextLink href="/signup">
+					<button className='border-[0.5px] dark:border-gray-100 border-gray-900 rounded-full py-2 px-5 text-black dark:text-white font-medium' >Sign Up</button>
+					</NextLink>
+					</div>
 					
 					
 				</div>

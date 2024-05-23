@@ -9,8 +9,8 @@ import { useFormContext } from "@/context/context"
 
 
 //const urlPath = 'http://localhost:3008'
-//const urlPath = process.env.NEXT_PUBLIC_url;
-const urlPath ='https://pollen-identification-2.onrender.com'
+const urlPath = process.env.NEXT_PUBLIC_url;
+
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -120,7 +120,7 @@ else{
 
 const handleRegister = async () =>{
   try {
-    const response = await fetch(`${urlPath}/register`, {
+    const response = await fetch(`${urlPath}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -151,7 +151,7 @@ const handleRegister = async () =>{
 const handleGoogleLogin = async () => {
   try {
     setIsLoading(true);
-    const response = await fetch(`${urlPath}/oAuthRegister`, {
+    const response = await fetch(`${urlPath}/auth/oAuthRegister`, {
       method: "POST",
     });
     const { url } = await response.json();

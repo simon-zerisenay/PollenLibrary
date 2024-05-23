@@ -35,31 +35,29 @@ const Browse: React.FC = () => {
           />
         </svg>
       </button>
-      <ul id="dropdown-example" className={`${isDropdownOpen ? 'block' : 'hidden'} py-2 space-y-2 bg-transparent text-start`}>
+      <ul id="dropdown-example" className={`${isDropdownOpen ? 'block' : 'hidden'} py-2 space-y-2 bg-transparent text-start `}>
         <li>
-          <Link href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+          <Link href="/Dashboard/common_name" className="flex items-center justify-start w-full p-2 text-gray-900 transition duration-75 rounded-lg  group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 font-medium">
 
             Common Name
 
           </Link>
         </li>
         <li>
-          <Link href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+          <Link href="/Dashboard/Family" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg  group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 font-medium">
 
             Family
 
           </Link>
         </li>
         <li>
-          <Link href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+          <Link href="/Dashboard/location" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg  group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 font-medium">
             Location
           </Link>
         </li>
         <li>
-          <Link href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-
+          <Link href="/Dashboard/Filter" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg  group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 font-medium">
             All Filters
-
           </Link>
         </li>
       </ul>

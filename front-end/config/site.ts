@@ -35,12 +35,7 @@ export const siteConfig = {
 			label: "About",
 			href: "#about",
 		},
-		{
-			label:"Library",
-			href: "/Dashboard",
 
-		},
-		
 		{
 			label: "Contact Us",
 			href: "/contact",

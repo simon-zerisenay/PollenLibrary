@@ -7,13 +7,16 @@ const db = mysql
   .createPool({
     host: process.env.host,
     user: process.env.user,
-    port: 25060,
+    port: 3306,
     password: process.env.password,
-
+    ssl: {
+      rejectUnauthorized: false,
+    },
     database: process.env.database,
   })
   .promise();
 
+  
   db.getConnection((err, connection) => {
     if (err) {
         console.error('Error connecting to database:', err);

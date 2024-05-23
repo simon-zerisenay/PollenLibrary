@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const db = require('../Database/db')
 const dotenv = require("dotenv");
 const jwt = require('jsonwebtoken');
-dotenv.confi
+dotenv.config()
 
 const OAuthRegister = async (req, res) => {
    
@@ -12,7 +12,7 @@ const OAuthRegister = async (req, res) => {
   res.header("Referrer-Policy","no-referrer-when-downgrade");
 
 
-  const redirectURL = `${process.env.back_end_url}/oauthUserData`;
+  const redirectURL = `${process.env.back_end_url}/auth/oauthUserData`;
 
   const oAuth2Client = new OAuth2Client(
     process.env.CLIENT_ID,
@@ -91,7 +91,7 @@ async function submitUserDataToDatabase(userData) {
 
     //console.log(code);
     try {
-        const redirectURL = `${process.env.back_end_url}/oauthUserData`;
+        const redirectURL = `${process.env.back_end_url}/auth/oauthUserData`;
         const oAuth2Client = new OAuth2Client(
             process.env.CLIENT_ID,
             process.env.CLIENT_SECRET,

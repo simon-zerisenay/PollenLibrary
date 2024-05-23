@@ -4,6 +4,23 @@ import {useState, useContext, createContext, SetStateAction, useEffect} from 're
 const urlPath = process.env.NEXT_PUBLIC_url;
 
 
+interface FormData {
+  common_name: string;
+  arabic_name: string;
+  description: string;
+  location: string;
+  family: string;
+  botanical_name: string;
+  habitas: string;
+  catagories: string;
+  synonyms: string;
+  kind: string;
+  reference: string;
+  area_of_collection: string;
+  image: File | null;
+}
+
+
 
 
   
@@ -13,7 +30,10 @@ const urlPath = process.env.NEXT_PUBLIC_url;
 interface DashboardContextProps {
     isAuthenticated:boolean;
     setIsAuthenticated:React.Dispatch<React.SetStateAction<boolean>>;
-    handleLogout:React.Dispatch<React.SetStateAction<void>>;
+    handleLogout: () => void;
+    formData: FormData;
+    setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+   
   }
 
 
@@ -38,7 +58,22 @@ export function useDashboardContext() {
   export function DashBordProvider({ children }: { children: React.ReactNode }) {
     
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
+    const [formData, setFormData] = useState<FormData>({
+      common_name: "",
+      arabic_name: "",
+      description: "",
+      location: "",
+      family: "",
+      botanical_name: "",
+      habitas: "",
+      catagories: "",
+      synonyms: "",
+      kind: "",
+      reference: "",
+      area_of_collection: "",
+      image: null,
+    });
+   
     useEffect(() => {
       const token = localStorage.getItem('token');
 
@@ -72,13 +107,13 @@ export function useDashboardContext() {
   }, [isAuthenticated]); //
   const handleLogout = () => {
    
-    const handleLogout = () => {
+    
 		// Perform logout actions, e.g., clear localStorage, etc.
 		localStorage.removeItem('token');
 		setIsAuthenticated(false);
 		// Redirect the user to the homepage or login page if necessary
 		window.location.href = '/';
-	  };
+	  
 }
   
     // Value to be provided by the context
@@ -86,6 +121,8 @@ export function useDashboardContext() {
         isAuthenticated,
         setIsAuthenticated, 
         handleLogout,
+        formData,
+        setFormData,
     };
   
     // Provide the context value to the children

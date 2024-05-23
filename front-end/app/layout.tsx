@@ -43,7 +43,7 @@ export default function RootLayout({
 					<FormProvider>
 					<div className="relative flex flex-col h-screen">
 						
-						<main className=" pt-16  flex-grow">
+						<main className="   flex-grow">
 							{children}
 						</main>
 						
