@@ -66,6 +66,7 @@ const AddNew = () => {
     // Handle form submission logic here
     // Step 3: Collect form data and add the image URL
     const formSubmission = { ...formData };
+    console.log("form submission:", formSubmission);
 
     // Step 4: Send the form data to your form acceptance API
     await fetch(`${urlPath}/content/addNew`, {
@@ -75,6 +76,7 @@ const AddNew = () => {
       },
       body: JSON.stringify(formSubmission),
     });
+    console.log(formSubmission);
 
     alert('Form submitted successfully!');
   };
@@ -82,7 +84,7 @@ const AddNew = () => {
 
   return (
     <Card className="flex items-center  w-full py-10 px-4 min-h-screen rounded-none">
-      <form  className="w-full max-w-2xl p-6 bg-transparent ">
+      <form  className="w-full max-w-2xl p-6 bg-transparent " onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold mb-6 text-start">Enter the Details Here</h2>
         <div className="flex flex-col md:flex-row gap-5">
           <div className="flex flex-col w-full">
@@ -94,7 +96,7 @@ const AddNew = () => {
               value={formData.common_name}
               onChange={handleChange}
               className="mt-2 p-2 w-full border rounded"
-              required
+              
             />
           </div>
           <div className="flex flex-col w-full">
@@ -106,7 +108,7 @@ const AddNew = () => {
               value={formData.arabic_name}
               onChange={handleChange}
               className="mt-2 p-2 w-full border rounded"
-              required
+              
             />
           </div>
         </div>
@@ -133,7 +135,7 @@ const AddNew = () => {
               value={formData.family}
               onChange={handleChange}
               className="mt-2 p-2 w-full border rounded"
-              required
+              
             />
           </div>
         </div>
@@ -159,7 +161,7 @@ const AddNew = () => {
               value={formData.family}
               onChange={handleChange}
               className="mt-2 p-2 w-full border rounded"
-              required
+              
             />
           </div>
         </div>

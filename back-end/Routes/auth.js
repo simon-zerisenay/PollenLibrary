@@ -11,6 +11,7 @@ const { register, login } = require('../controller/EmailAuth');
 //email authentication
 router.post('/register', register);
 router.post('/login', login);
+router.post('/checkAuth', checkAuth);
 
 //oauth
 router.post("/oAuthRegister", OAuthRegister);

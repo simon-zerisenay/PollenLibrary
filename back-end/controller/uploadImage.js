@@ -17,10 +17,10 @@ const generatePrsignedUrl  = async (req, res) => {
   
     try {
       const containerClient = blobServiceClient.getContainerClient(containerName);
-      console.log('container_client',containerClient)
+      //console.log('container_client',containerClient)
       const blobName = `${new Date()}-${fileName}`;
       const blobClient = containerClient.getBlobClient(blobName);
-      console.log('blob_client',blobClient)
+      //console.log('blob_client',blobClient)
 
       const sharedKeyCredential = new StorageSharedKeyCredential(
         process.env.AZURE_STORAGE_ACCOUNT_NAME,

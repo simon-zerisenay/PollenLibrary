@@ -3,13 +3,29 @@
 const Content = require('../models/content');
 
 const addContent = async (req, res) => {
-  const { arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, types, references, area_of_collection, image } = req.body;
-  //const image_link = req.file.path;
+  const {
+    english_name = '',
+    arabic_name = '',
+    botanical_name = '',
+    synonyms = '',
+    family = '',
+    kind = '',
+    emirate = '',
+    categories = '',
+    habitats = '',
+    descriptions = '', 
+    image = ''
+  } = req.body;
+
   const progress = 'in-progress';
 
+   console.log("before addContent")
+
   try {
-    const contentId = await Content.create({ arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, types, references, area_of_collection, image, progress });
+   
+    const contentId = await Content.create({ english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image, progress });
     res.status(201).json({ id: contentId });
+    console.log("formatted content");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

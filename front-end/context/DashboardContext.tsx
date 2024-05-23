@@ -74,37 +74,37 @@ export function useDashboardContext() {
       image: null,
     });
    
-    useEffect(() => {
-      const token = localStorage.getItem('token');
+  //   useEffect(() => {
+  //     const token = localStorage.getItem('token');
 
-      const checkAuth = async () => {
-          try {
-              const response = await fetch(`${urlPath}/checkAuth`, {
-                  method: 'POST',
-                  body: JSON.stringify({ token: token })
-              });
+  //     const checkAuth = async () => {
+  //         try {
+  //             const response = await fetch(`${urlPath}/auth/checkAuth`, {
+  //                 method: 'POST',
+  //                 body: JSON.stringify({ token: token })
+  //             });
 
-              if (response.ok) {
-                  const result = await response.json();
-                  // Handle the result, e.g., update state or navigate
-                  console.log('Auth successful:', result);
-                  setIsAuthenticated(true);
-              } else {
-                  // Handle non-2xx status codes
-                  console.error('Auth failed:', response.status);
+  //             if (response.ok) {
+  //                 const result = await response.json();
+  //                 // Handle the result, e.g., update state or navigate
+  //                 console.log('Auth successful:', result);
+  //                 setIsAuthenticated(true);
+  //             } else {
+  //                 // Handle non-2xx status codes
+  //                 console.error('Auth failed:', response.status);
 
-                  setIsAuthenticated(false);
-                  localStorage.removeItem('token');
-                //   window.location.href= '/';
-              }
-          } catch (error) {
-              // Handle network or other errors
-              console.error('Error during auth check:', error);
-          }
-      };
+  //                 setIsAuthenticated(false);
+  //                 localStorage.removeItem('token');
+  //               //   window.location.href= '/';
+  //             }
+  //         } catch (error) {
+  //             // Handle network or other errors
+  //             console.error('Error during auth check:', error);
+  //         }
+  //     };
 
-      checkAuth();
-  }, [isAuthenticated]); //
+  //     checkAuth();
+  // }, [isAuthenticated]); //
   const handleLogout = () => {
    
     

@@ -4,10 +4,18 @@ const pool = require('../Database/db');
 
 const Content = {
   async create(data) {
-    const { arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, types, references, area_of_collection, image_link, progress } = data;
-    const [result] = await pool.query('INSERT INTO content_table (arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, types, references,  descriptions, image_link, progress) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, types, references,  descriptions, image_link, progress]);
-    return result.insertId;
-  },
+    console.log('running content');
+    try {
+        const { english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image, progress } = data;
+        const image_link = image;
+        const [result] = await pool.query('INSERT INTO pollen_library.content_table (english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image_link, progress) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image_link, progress]);
+        console.log('result: ', result);
+        return result.insertId;
+    } catch (e) {
+        console.log('error: ', e);
+    }
+},
+
 
   async updateProgress(id, progress) {
     await pool.query('UPDATE content_table SET progress = ? WHERE id = ?', [progress, id]);
