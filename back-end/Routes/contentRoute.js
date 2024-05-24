@@ -17,10 +17,10 @@ const router = express.Router();
 
 
 
-router.post('/addNew', addContent);
+router.post('/addNew',authMiddleware, addContent);
 router.post('/generatePresigndeUlr', generatePrsignedUrl)
-router.put('/approve/:id',authMiddleware, roleMiddleware(['admin']),approveContent);
-router.put('/reject/:id', authMiddleware, roleMiddleware(['admin']), rejectContent);
+router.put('/approve/:id',authMiddleware,approveContent);
+router.put('/reject/:id', authMiddleware, rejectContent);
 
 router.get('/getInprogress', authMiddleware, getInProgressContent);
 router.get('/:id', authMiddleware, getContent);

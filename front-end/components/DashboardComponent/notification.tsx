@@ -16,6 +16,41 @@ interface NotificationProps {
 }
 
 const Notification: React.FC<NotificationProps> = ({ content, role }) => {
+  const token = localStorage.getItem('token');
+  const urlPath = process.env.NEXT_PUBLIC_url;
+
+  const handleApproval = async (id: Number) =>{
+
+    try{
+      const response = await fetch(`${urlPath}/content/approve/:${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+    }catch(error){
+        console.log(error);
+      }
+  }
+
+  const handleReject = async (id: Number) =>{
+    try{
+      const response = await fetch(`${urlPath}/content/reject/:${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+    }catch(error){
+        console.log(error);
+      }
+  }
 
   
   return (
@@ -43,10 +78,10 @@ const Notification: React.FC<NotificationProps> = ({ content, role }) => {
               </CardBody>
               {role === 'admin' && (
                 <CardFooter>
-                   <Button className=" bg-green-400 hover:bg-green-700 mr-3" >
+                   <Button className=" bg-green-400 hover:bg-green-700 mr-3" onClick= {() =>{handleApproval(item.id)}} >
                       Approve
                    </Button>
-                   <Button className=" bg-red-400 hover:bg-red-600" >
+                   <Button className=" bg-red-400 hover:bg-red-600" onClick= {() =>{handleReject(item.id)}} >
                       Reject
                    </Button>
                 </CardFooter>

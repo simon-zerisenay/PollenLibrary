@@ -51,7 +51,9 @@ const DashNavBar: React.FC<DashNavBarProps> = ({ toggleSidebar }) => {
     }
   };
 
- 
+ useEffect(() => {
+   getInprogressContent();
+ },[]);
 
  
 
@@ -100,9 +102,7 @@ const DashNavBar: React.FC<DashNavBarProps> = ({ toggleSidebar }) => {
       
       <NavbarContent justify="end" >
         <ThemeSwitch />
-        <div onClick={getInprogressContent} className=" cursor-pointer bg-blue-500 rounded-md py-2 px-4">
-          test api
-        </div>
+        
         <Notification  content= {content} role ={role}  /> 
         <Dropdown placement="bottom-end">
           <DropdownTrigger>

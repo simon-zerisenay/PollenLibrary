@@ -69,7 +69,7 @@ async function submitUserDataToDatabase(userData) {
 
     // Hash the password
     const password_hash = await bcrypt.hash(password, 10);
-    const role = 'admin';
+    const role = 'user';
     // Insert user data into the database
     const user_result = await db.query(
       "INSERT INTO users_table (username, email, password_hash, role) VALUES (?,?,?,?)",

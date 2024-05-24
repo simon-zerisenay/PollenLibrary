@@ -13,13 +13,13 @@ const authMiddleware = async (req, res, next) => {
   
     try {
         const decoded = jwt.verify(token, process.env.jwt_secret);
-        console.log('decoded',decoded);
+        //console.log('decoded',decoded);
         const [user] = await db.query("SELECT * FROM users_table WHERE email = ?", [decoded.email]);
       
         if (!user) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-        console.log('user',user[0].user_id);
+        //console.log('user',user[0].user_id);
         req.user = user[0].user_id; // Add user information to the request object
        
         next();

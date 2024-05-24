@@ -9,7 +9,7 @@ interface FormData {
   common_name: string;
   arabic_name: string;
   description: string;
-  location: string;
+  emarates: string;
   family: string;
   botanical_name: string;
   habitas: string;
@@ -66,7 +66,7 @@ export function useDashboardContext() {
       common_name: "",
       arabic_name: "",
       description: "",
-      location: "",
+      emarates: "",
       family: "",
       botanical_name: "",
       habitas: "",

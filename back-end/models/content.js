@@ -6,15 +6,20 @@ const Content = {
   async create(data) {
     console.log('running content');
     try {
-        const { english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image, progress } = data;
-        const image_link = image;
-        const [result] = await pool.query('INSERT INTO pollen_library.content_table (english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image_link, progress) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image_link, progress]);
-        console.log('result: ', result);
-        return result.insertId;
+      const { common_name, emirate, categories, descriptions, image, progress, user_id } = data;
+      const image_link = image;
+      const [result] = await pool.query(
+        'INSERT INTO pollen_library.content_table (common_name, emirate, categories,descriptions, image_link, progress, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+        [common_name, emirate, categories, descriptions, image_link, progress, user_id]
+      );
+      console.log('result: ', result);
+      return result.insertId;
     } catch (e) {
-        console.log('error: ', e);
+      console.log('error: syntax error ', e);
+      throw e;
     }
-},
+  },
+
 
 
   async updateProgress(id, progress) {
@@ -49,8 +54,9 @@ const Content = {
   async getInporgressByUserId(user_Id) {
     // Implement the logic to fetch in-progress content by user ID
     // This is a placeholder, replace with actual database query
-    const rerult= await db.query('SELECT * FROM content_table WHERE status = "in-progress" AND user_id = ?', [user_Id]);
-    console.log("result", rerult);
+    const result= await pool.query('SELECT * FROM content_table WHERE progress = ? AND user_id = ?', [user_Id, "in-progress"]);
+    console.log("results", result);
+    return result[0];
   }
 };
 

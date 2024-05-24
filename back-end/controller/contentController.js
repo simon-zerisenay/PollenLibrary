@@ -3,34 +3,49 @@ const Content = require('../models/content');
 const User = require('../models/user');
 
 const addContent = async (req, res) => {
+  const user_id = req.user;
   const {
-    english_name = '',
-    arabic_name = '',
-    botanical_name = '',
-    synonyms = '',
-    family = '',
-    kind = '',
-    emirate = '',
-    categories = '',
-    habitats = '',
-    descriptions = '', 
-    image = ''
+    english_name ,
+    emirate ,
+    categories ,
+    descriptions ,
+    image 
   } = req.body;
 
-  const progress = 'in-progress';
+  console.log("user_id: " + user_id);
 
-   console.log("before addContent")
+  const result = await User.findById(user_id);
+  //console.log("result", result);
+  const userRole = result.role;
+
+  let progress;
+  if (userRole === 'admin') {
+    progress = 'approved';
+  } else {
+    progress = 'in-progress';
+    // Update user role to contributor only if it is not already 'contributor'
+    if (userRole !== 'contributor') {
+      await User.updateRole(user_id, 'contributor');
+    }
+  }
 
   try {
-   
-    const contentId = await Content.create({ english_name, arabic_name, botanical_name, synonyms, family, kind, emirate, categories, habitats, descriptions, image, progress });
+    
+    const contentId = await Content.create({
+      english_name,
+      emirate,
+      categories,
+      descriptions,
+      image,
+      progress,
+      user_id
+    });
     res.status(201).json({ id: contentId });
     console.log("formatted content");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
 const approveContent = async (req, res) => {
   const { id } = req.params;
 
@@ -96,7 +111,7 @@ const getInProgressContent = async (req, res) => {
     console.log("user_id", user_id);
 
     const result =  await User.findById(user_id);
-    console.log("result", result);
+    console.log("results", result.role);
     const role = result.role;
 
     let content;

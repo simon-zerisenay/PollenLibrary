@@ -5,16 +5,20 @@ import { useState } from 'react';
 interface FormData {
   name: string;
   description: string;
-  location: string;
+  emarates: string;
   family: string;
   image: File | null;
+  catagories: string
 }
 
 import { useDashboardContext } from '@/context/DashboardContext';
 const urlPath = process.env.NEXT_PUBLIC_url;
+const token = localStorage.getItem('token');
+
 
 const AddNew = () => {
   const {formData, setFormData} = useDashboardContext();
+  const [message, setMessage] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -73,12 +77,15 @@ const AddNew = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        
       },
       body: JSON.stringify(formSubmission),
     });
     console.log(formSubmission);
-
-    alert('Form submitted successfully!');
+    
+    setMessage('Form submitted successfully!');
+    //alert('Form submitted successfully!');
   };
   
 
@@ -96,16 +103,30 @@ const AddNew = () => {
               value={formData.common_name}
               onChange={handleChange}
               className="mt-2 p-2 w-full border rounded"
+            />
+          </div>
+        </div>
+        
+        <div className="flex flex-col md:flex-row gap-5 mt-5">
+        <div className="flex flex-col w-full">
+            <label htmlFor="emarates" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Emarates</label>
+            <input
+              type="text"
+              id="emarates"
+              name="emarates"
+              value={formData.emarates}
+              onChange={handleChange}
+              className="mt-2 p-2 w-full border rounded"
               
             />
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="arabicName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Arabic Name</label>
+            <label htmlFor="catagories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catagories</label>
             <input
               type="text"
-              id="arabicName"
-              name="arabic_name"
-              value={formData.arabic_name}
+              id="catagories"
+              name="catagories"
+              value={formData.catagories}
               onChange={handleChange}
               className="mt-2 p-2 w-full border rounded"
               
@@ -113,58 +134,6 @@ const AddNew = () => {
           </div>
         </div>
         
-        <div className="flex flex-col md:flex-row gap-5 mt-5">
-          <div className="flex flex-col w-full">
-            <label htmlFor="location" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="mt-2 p-2 w-full border rounded"
-              
-            />
-          </div>
-          <div className="flex flex-col w-full">
-            <label htmlFor="family" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Family</label>
-            <input
-              type="text"
-              id="family"
-              name="family"
-              value={formData.family}
-              onChange={handleChange}
-              className="mt-2 p-2 w-full border rounded"
-              
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-5 mt-5">
-          <div className="flex flex-col w-full">
-            <label htmlFor="botanical_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Botanical Name</label>
-            <input
-              type="text"
-              id="botanical_name"
-              name="botanical_name"
-              value={formData.botanical_name}
-              onChange={handleChange}
-              className="mt-2 p-2 w-full border rounded"
-              
-            />
-          </div>
-          <div className="flex flex-col w-full">
-            <label htmlFor="habitas" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Habitas</label>
-            <input
-              type="text"
-              id="habitas"
-              name="habitas"
-              value={formData.family}
-              onChange={handleChange}
-              className="mt-2 p-2 w-full border rounded"
-              
-            />
-          </div>
-        </div>
         
         <div className="flex flex-col mt-5">
           <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
@@ -195,7 +164,11 @@ const AddNew = () => {
           </div>
         <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full mt-5">Submit</button>
       </form>
-      
+      {message && (
+        <div className="mt-5 text-center">
+          <p className="text-sm font-medium text-green-600">{message}</p>
+        </div>
+      )}
     </Card>
   );
 };

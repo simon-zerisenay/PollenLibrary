@@ -23,10 +23,15 @@ const User = {
   async findById(user_id) {
     
     const [rows] = await pool.query('SELECT * FROM users_table WHERE user_id = ?', [user_id]);
-    console.log("it is running",rows);
+    //console.log("it is running",rows);
 
     return rows[0];
   },
+
+  async updateRole(user_id, role) {
+    const [result] = await pool.query('UPDATE users_table SET role = ? WHERE user_id = ?', [role, user_id]);
+    return result;
+  }
 
  
 
