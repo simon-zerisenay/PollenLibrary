@@ -16,28 +16,12 @@ const urlPath = process.env.NEXT_PUBLIC_url;
 export default function DashboardPage() {
 	const [userInfomation, setUserInfomation] = useState<UserInfo | null>(null);
 
-	useEffect(() => {
-		// Function to get token from URL query parameters
-		const getTokenFromURL = () => {
-		  const urlParams = new URLSearchParams(window.location.search);
-		  return urlParams.get('token');
-		};
 	
-		// Get token from URL
-		const tokenFromURL = getTokenFromURL();
-		console.log('tokenFromURL', tokenFromURL);
-		// Store token in localStorage
-		if (tokenFromURL) {
-		  localStorage.setItem('token', tokenFromURL);
-		  
-		}
-	
-	  }, []);
 
-	  useEffect(() => {
-		// Fetch user information when the component mounts
-		fetchUserInfo();
-	  }, []);
+	//   useEffect(() => {
+	// 	// Fetch user information when the component mounts
+	// 	fetchUserInfo();
+	//   }, []);
 	
 	  const fetchUserInfo = async () => {
 		try {
@@ -52,7 +36,7 @@ export default function DashboardPage() {
 			
 			console.log(email)
 			// Make a request to the backend to fetch user information using the email
-			const response = await fetch(`${urlPath}/getUserinfo`, {
+			const response = await fetch(`${urlPath}/auth/getuserInfo`, {
 			  method: "POST",
 			  headers: {
 				"Content-Type": "application/json",

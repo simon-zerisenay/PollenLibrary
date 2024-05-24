@@ -8,13 +8,52 @@ import { FiUpload } from "react-icons/fi";
 import Notification from "./notification";
 import Link from "next/link";
 import { useDashboardContext } from "@/context/DashboardContext";
+import { useState , useEffect} from "react";
 
 interface DashNavBarProps {
   toggleSidebar: () => void;
 }
+interface ContentItem {
+  id: number;
+  english_name: string;
+  image_src : string;
+
+  
+}
 
 const DashNavBar: React.FC<DashNavBarProps> = ({ toggleSidebar }) => {
   const {handleLogout} = useDashboardContext();
+  const token = localStorage.getItem('token');
+  const urlPath = process.env.NEXT_PUBLIC_url;
+  const [content, setContent] = useState<ContentItem[]>([]);
+  const [role, setRole] = useState<string>("");
+
+  const getInprogressContent = async () => {
+    try {
+      const url = `${urlPath}/content/getInprogress`;
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error('Failed to fetch content');
+      }
+      const data = await response.json();
+      setContent(data.content);
+      setRole(data.role);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+ 
+
+ 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -57,10 +96,14 @@ const DashNavBar: React.FC<DashNavBarProps> = ({ toggleSidebar }) => {
             />
           </div>
         </div>
-      </NavbarContent>
-      <NavbarContent justify="end">
+      </NavbarContent >
+      
+      <NavbarContent justify="end" >
         <ThemeSwitch />
-        {/*<Notification/> */}
+        <div onClick={getInprogressContent} className=" cursor-pointer bg-blue-500 rounded-md py-2 px-4">
+          test api
+        </div>
+        <Notification  content= {content} role ={role}  /> 
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar

@@ -1,6 +1,6 @@
 
-
 const Content = require('../models/content');
+const User = require('../models/user');
 
 const addContent = async (req, res) => {
   const {
@@ -87,6 +87,36 @@ const getAllApprovedContent = async (req, res) => {
   }
 };
 
+const getInProgressContent = async (req, res) => {
+  console.log("in getInporgressContent");
+  try {
+    // Assuming req.user contains the authenticated user's information
+    const user_id  = req.user;
+
+    console.log("user_id", user_id);
+
+    const result =  await User.findById(user_id);
+    console.log("result", result);
+    const role = result.role;
+
+    let content;
+    if (role === 'admin') {
+      content = await Content.getInporgress(); // Fetch all in-progress content
+      console.log("content", content);
+    } else if (role === 'contributor') {
+      content = await Content.getInporgressByUserId(user_id); // Fetch in-progress content by user_id
+    } else {
+      return res.status(403).json({ message: "Access forbidden: insufficient permissions" });
+    }
+   
+    console.log("Access" , content , "role", role);
+    res.status(200).json({content: content, role: role});
+    console.log("content", content);
+  } catch (err) {
+    console.log("Error", err);
+    res.status(500).json({ message: err.message });
+  }
+}
 
 module.exports = {
   addContent,
@@ -95,4 +125,5 @@ module.exports = {
   getContent,
   searchContent,
   getAllApprovedContent,
+  getInProgressContent
 };

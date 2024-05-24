@@ -57,7 +57,7 @@ async function submitUserDataToDatabase(userData) {
 
   try {
     // Check if the email is already registered
-    const [existingUser] = await db.query('SELECT * FROM tbl_user WHERE email = ?', [email]);
+    const [existingUser] = await db.query('SELECT * FROM users_table WHERE email = ?', [email]);
     
     if (existingUser) {
       console.log('User email already exists:', email);
@@ -69,11 +69,11 @@ async function submitUserDataToDatabase(userData) {
 
     // Hash the password
     const password_hash = await bcrypt.hash(password, 10);
-    
+    const role = 'admin';
     // Insert user data into the database
     const user_result = await db.query(
-      "INSERT INTO tbl_user (username, email, password_hash) VALUES (?,?,?)",
-      [name, email, password_hash]
+      "INSERT INTO users_table (username, email, password_hash, role) VALUES (?,?,?,?)",
+      [name, email, password_hash, role]
     );
 
     console.log('User registered successfully:', user_result);

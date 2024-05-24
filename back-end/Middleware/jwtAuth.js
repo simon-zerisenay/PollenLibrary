@@ -4,6 +4,8 @@ const db = require('../Database/db');
 
 const authMiddleware = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
+
+    console.log('token',token);
   
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -11,14 +13,15 @@ const authMiddleware = async (req, res, next) => {
   
     try {
         const decoded = jwt.verify(token, process.env.jwt_secret);
-        const [user] = await db.query("SELECT * FROM tbl_user WHERE user_id = ?", [decoded.id]);
+        console.log('decoded',decoded);
+        const [user] = await db.query("SELECT * FROM users_table WHERE email = ?", [decoded.email]);
       
         if (!user) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-      
-        req.user = user; // Add user information to the request object
-        
+        console.log('user',user[0].user_id);
+        req.user = user[0].user_id; // Add user information to the request object
+       
         next();
 
     } catch (error) {

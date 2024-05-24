@@ -27,7 +27,7 @@ export default function Hero() {
 					href='/signup'
 					className="bg-gradient-to-t from-yellow-700 to-yellow-400 px-5 py-3 rounded-lg text-white text-lg "
 				>
-					Learn More
+					Get Started
 				</Link>
 				
 			</div>

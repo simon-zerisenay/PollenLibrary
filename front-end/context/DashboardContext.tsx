@@ -1,5 +1,6 @@
 'use client'
 import {useState, useContext, createContext, SetStateAction, useEffect} from 'react';
+import { jwtDecode } from "jwt-decode";
 
 const urlPath = process.env.NEXT_PUBLIC_url;
 
@@ -30,6 +31,8 @@ interface FormData {
 interface DashboardContextProps {
     isAuthenticated:boolean;
     setIsAuthenticated:React.Dispatch<React.SetStateAction<boolean>>;
+    userRole:string;
+    setUserRole:React.Dispatch<React.SetStateAction<string>>;
     handleLogout: () => void;
     formData: FormData;
     setFormData: React.Dispatch<React.SetStateAction<FormData>>;
@@ -58,6 +61,7 @@ export function useDashboardContext() {
   export function DashBordProvider({ children }: { children: React.ReactNode }) {
     
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [userRole, setUserRole] = useState<string>("");
     const [formData, setFormData] = useState<FormData>({
       common_name: "",
       arabic_name: "",
@@ -74,37 +78,70 @@ export function useDashboardContext() {
       image: null,
     });
    
-  //   useEffect(() => {
-  //     const token = localStorage.getItem('token');
+    // check user authentication
+    useEffect(() => {
+      const getTokenFromURL = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('token');
+      };
+    
+      // Get token from URL
+      const tokenFromURL = getTokenFromURL();
+      //console.log('tokenFromURL', tokenFromURL);
+      // Store token in localStorage
+      if (tokenFromURL) {
+        localStorage.setItem('token', tokenFromURL);
+        
+      }
+      
+      // Retrieve token from localStorage
+    const localStorageToken = localStorage.getItem('token');
+  
+    // Use token from localStorage if it exists, otherwise use token from URL
+    const token = localStorageToken || tokenFromURL;
 
-  //     const checkAuth = async () => {
-  //         try {
-  //             const response = await fetch(`${urlPath}/auth/checkAuth`, {
-  //                 method: 'POST',
-  //                 body: JSON.stringify({ token: token })
-  //             });
+    console.log(`token: ${token}`);
+      const checkAuth = async () => {
+        const reqdata = {
+          token: token
+        }
+          try {
+            if (!token) {
+              console.error('Token is undefined or null');
+              return;
+          }
+              const response = await fetch(`${urlPath}/auth/checkAuth`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(reqdata)
+              });
 
-  //             if (response.ok) {
-  //                 const result = await response.json();
-  //                 // Handle the result, e.g., update state or navigate
-  //                 console.log('Auth successful:', result);
-  //                 setIsAuthenticated(true);
-  //             } else {
-  //                 // Handle non-2xx status codes
-  //                 console.error('Auth failed:', response.status);
+              if (response.ok) {
+                  const result = await response.json();
+                  // Handle the result, e.g., update state or navigate
+                  console.log('Auth successful:', result);
+                  setIsAuthenticated(true);
+              } else {
+                  // Handle non-2xx status codes
+                  //console.error('Auth failed:', response.status);
 
-  //                 setIsAuthenticated(false);
-  //                 localStorage.removeItem('token');
-  //               //   window.location.href= '/';
-  //             }
-  //         } catch (error) {
-  //             // Handle network or other errors
-  //             console.error('Error during auth check:', error);
-  //         }
-  //     };
+                  setIsAuthenticated(false);
+                  localStorage.removeItem('token');
+                //   window.location.href= '/';
+              }
+          } catch (error) {
+              // Handle network or other errors
+              console.error('Error during auth check:', error);
+          }
+      };
 
-  //     checkAuth();
-  // }, [isAuthenticated]); //
+      checkAuth();
+  }, [isAuthenticated]);
+  
+  
+  
   const handleLogout = () => {
    
     
@@ -123,6 +160,8 @@ export function useDashboardContext() {
         handleLogout,
         formData,
         setFormData,
+        userRole,
+        setUserRole,
     };
   
     // Provide the context value to the children

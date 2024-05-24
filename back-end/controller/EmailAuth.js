@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const register = async (req,res) =>{
   
     const {email, password, phone_number} = req.body;
-
+    const role = 'user';
     try{
         console.log('register')
         const user_exist = await User.findByEmail(email);
@@ -15,7 +15,7 @@ const register = async (req,res) =>{
             return res.status(401).json({ status: 'error', error: 'User already exists' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create(email, hashedPassword, phone_number);
+        const user = await User.create(email, hashedPassword, phone_number,role);
 
         const token = await jwt.sign({id:user.id, email:user.email } , process.env.jwt_secret)
 

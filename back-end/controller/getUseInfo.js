@@ -6,7 +6,7 @@ const getUserInfomation = async (req, res) => {
   
   try {
     // Retrieve user information using email
-    const user = await db.query("SELECT * FROM tbl_user WHERE email = ?", [email]);
+    const user = await db.query("SELECT * FROM users_table WHERE email = ?", [email]);
 
     if (!user[0][0]) {
       return res.status(401).json({ status: 'error', error: 'User not found' });

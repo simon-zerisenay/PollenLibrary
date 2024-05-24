@@ -39,6 +39,18 @@ const Content = {
   async getAllApproved() {
     const [rows] = await pool.query('SELECT * FROM content_table WHERE progress = "approved"');
     return rows;
+  },
+
+  async getInporgress() {
+    const rows= await pool.query('SELECT * FROM content_table WHERE progress = ?' ,["in-progress"]);
+    console.log("admin", rows[0]);
+    return rows[0];
+  },
+  async getInporgressByUserId(user_Id) {
+    // Implement the logic to fetch in-progress content by user ID
+    // This is a placeholder, replace with actual database query
+    const rerult= await db.query('SELECT * FROM content_table WHERE status = "in-progress" AND user_id = ?', [user_Id]);
+    console.log("result", rerult);
   }
 };
 
